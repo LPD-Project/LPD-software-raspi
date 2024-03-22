@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WiFi Setup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        h1[type="head"]{
+            margin-left : 15px ;
+            background-color: green;
+            color: white;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        p[type="deviceId"]{
+           margin-left : 15px ;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1 type="head" >WiFi Setup</h1>
+    <h1 >Laser Pideon Deterrent</h1>
+
+    <p id="message" type="deviceId"></p>
+    <p id="message2" type="deviceId"></p>
+    <p type="deviceId">DeviceId : qwerasdfzxcv</p>
+
+    <form id="wifiForm" method="POST">
+        <label for="ssid">SSID:</label><br>
+        <input type="text" id="ssid" name="ssid"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        document.getElementById('wifiForm').onsubmit = function() {
+            var ssid = document.getElementById('ssid').value;
+            var password = document.getElementById('password').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/connect', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({ssid: ssid, password: password}));
+
+            var message = document.getElementById('message');
+            message.innerText = 'Please restart this device and continue to use the Application.';
+
+            // Redirect the user to a new page after displaying the message
+            var message = document.getElementById('message');
+                        message.innerText = 'trying to setup network connection...';
+                        message.style.color = 'orange';
+
+            setTimeout(function() {
+                  var message = document.getElementById('message');
+                        message.innerText = 'Please restart this device and continue to use the Application.';
+                        message.style.color = 'green'; // Set the text color to green
+                  var message = document.getElementById('message2');
+                        message.innerText = "If device is not online please try to setup device's Wifi at this page again.";
+                        message.style.color = 'grey'; // Set the text color to green
+               }, 11000);
+
+            return false;
+        }
+    </script>
+</body>
+</html>
